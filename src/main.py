@@ -6,7 +6,7 @@ from report import report
 import os
 import json
 from src.back_process import update_data_table
-
+import numpy as np
 
 class Subject:
     def __init__(self, ID):
@@ -30,9 +30,21 @@ class Subject:
         self.weight = self.info['weight']
 
     def set_data_excel(self):
-        order = self.info['order_nike':'order_individual_3'].sort_values(ascending=True)
+        order = self.info['order_nike':'order_individual_3'].sort_values(ascending=True).dropna()
+
+        #Check the link between order and shoes value --> avoid Nan indivual shoe
+        for i in range(1, 4):
+            if str(self.info[f'individual_{i}']) == 'nan':
+                try:
+                    del (order[f'order_individual_{i}'])
+                except:
+                    continue
+
+        order[:] = range(1, len(order) + 1)
+
         self.data_excel = pd.DataFrame()
         for i, shoe in enumerate(order.index):
+            print(i)
             ind = '_'.join(shoe.split('_')[1:])
             match ind:
                 case 'individual_1':
@@ -50,7 +62,7 @@ class Subject:
                     name = 'Puma Nitro Elite'
             try:
                 picture_name = name.rstrip().replace(' ', '_')
-
+                print(name)
                 self.data_excel.loc[' ', name] = os.path.join(r'assets', f'{picture_name}.png')
                 # self.data_excel.loc['Order', name] = self.info[shoe]
                 self.data_excel.loc['Weight_g', name] = self.info.loc[f'weight_{ind}']
