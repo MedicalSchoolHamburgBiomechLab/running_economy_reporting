@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Table</title>
+    <link href="../css/styles.css" rel="stylesheet">
+    <style>
+        body {
+            /*font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-body">
+        <h3> Institute of Interdisciplinary Exercise Science and Sports Medicine <br> Prof. Dr. Dr. Karsten Hollander
+        </h3>
+        <div class="header-top">
+            <div class="logo-area">
+                <img src="../assets/logo_msh.png">
+                <div class="separator"></div>
+                <img src="../assets/logo_simple_msh.png">
+            </div>
+        </div>
+    </div>
+    <div class="header-bot">
+        <h2> Report Running Economy </h2>
+    </div>
+</header>
+
+<hr class="custom-line">
+
+<body-data>
+    <div class="meta-div">
+        <table class="subject-information">
+            <thead>
+            <tr>
+                <th colspan="2"><h4>Subject Information</h4></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><u>Athlete:</u> {{first_name}} {{second_name}}</td>
+                <td><u>Date of Birth:</u> {{DOB}}</td>
+            </tr>
+            <tr>
+                <td><u>Height:</u> {{height}}</td>
+                <td><u>Weight:</u> {{weight}}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table class="measurement-information">
+            <thead>
+            <tr>
+                <th colspan="2"><h4>Measurement Information</h4></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><u>Date:</u> {{date_visit}}</td>
+                <td><u>Session Time:</u> {{session_time}}</td>
+            </tr>
+            <tr>
+                <td><u>pb distance:</u> {{pb_distance}}</td>
+                <td><u>pb time:</u> {{pb_time}}</td>
+            </tr>
+            <tr>
+                <td><u>speed (kph):</u> {{speed_kph}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="data-div">
+        {{data_table}}
+    </div>
+</body-data>
+
+</body>
+</html>

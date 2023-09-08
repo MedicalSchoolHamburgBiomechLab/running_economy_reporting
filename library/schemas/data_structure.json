@@ -1,0 +1,344 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ID": {
+      "type": "string"
+    },
+    "first_name": {
+      "type": "string"
+    },
+    "second_name": {
+      "type": "string"
+    },
+    "DOB": {
+      "type": "string"
+    },
+    "height": {
+      "type": "number"
+    },
+    "weight": {
+      "type": "number"
+    },
+    "date_visit": {
+      "type": "string"
+    },
+    "pb_distance": {
+      "type": "string"
+    },
+    "pb_time": {
+      "type": "string"
+    },
+    "speed_kph": {
+      "type": "number"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "Asics Metaspeed": {
+          "type": "object",
+          "properties": {
+            " ": {
+              "type": "string"
+            },
+            "Weight_g": {
+              "type": "number"
+            },
+            "VO2_ml_min_kg": {
+              "type": "number"
+            },
+            "VO2_ml_km_kg": {
+              "type": "string"
+            },
+            "HR_bpm": {
+              "type": "number"
+            },
+            "RPE_6_20": {
+              "type": "integer"
+            },
+            "Comfort_1_10": {
+              "type": "integer"
+            },
+            "Lactate_mmol_l": {
+              "type": "number"
+            },
+            "Size_US": {
+              "type": "number"
+            },
+            "Cadence": {
+              "type": "number"
+            }
+          },
+          "required": [
+            " ",
+            "Weight_g",
+            "VO2_ml_min_kg",
+            "VO2_ml_km_kg",
+            "HR_bpm",
+            "RPE_6_20",
+            "Comfort_1_10",
+            "Lactate_mmol_l",
+            "Size_US",
+            "Cadence"
+          ]
+        },
+        "Nike Alphafly Next%": {
+          "type": "object",
+          "properties": {
+            " ": {
+              "type": "string"
+            },
+            "Weight_g": {
+              "type": "number"
+            },
+            "VO2_ml_min_kg": {
+              "type": "number"
+            },
+            "VO2_ml_km_kg": {
+              "type": "string"
+            },
+            "HR_bpm": {
+              "type": "number"
+            },
+            "RPE_6_20": {
+              "type": "integer"
+            },
+            "Comfort_1_10": {
+              "type": "integer"
+            },
+            "Lactate_mmol_l": {
+              "type": "number"
+            },
+            "Size_US": {
+              "type": "number"
+            },
+            "Cadence": {
+              "type": "number"
+            }
+          },
+          "required": [
+            " ",
+            "Weight_g",
+            "VO2_ml_min_kg",
+            "VO2_ml_km_kg",
+            "HR_bpm",
+            "RPE_6_20",
+            "Comfort_1_10",
+            "Lactate_mmol_l",
+            "Size_US",
+            "Cadence"
+          ]
+        },
+        "Nike Vapor Fly ": {
+          "type": "object",
+          "properties": {
+            " ": {
+              "type": "string"
+            },
+            "Weight_g": {
+              "type": "number"
+            },
+            "VO2_ml_min_kg": {
+              "type": "number"
+            },
+            "VO2_ml_km_kg": {
+              "type": "string"
+            },
+            "HR_bpm": {
+              "type": "number"
+            },
+            "RPE_6_20": {
+              "type": "integer"
+            },
+            "Comfort_1_10": {
+              "type": "integer"
+            },
+            "Lactate_mmol_l": {
+              "type": "number"
+            },
+            "Size_US": {
+              "type": "number"
+            },
+            "Cadence": {
+              "type": "number"
+            }
+          },
+          "required": [
+            " ",
+            "Weight_g",
+            "VO2_ml_min_kg",
+            "VO2_ml_km_kg",
+            "HR_bpm",
+            "RPE_6_20",
+            "Comfort_1_10",
+            "Lactate_mmol_l",
+            "Size_US",
+            "Cadence"
+          ]
+        },
+        "Puma Nitro Elite": {
+          "type": "object",
+          "properties": {
+            " ": {
+              "type": "string"
+            },
+            "Weight_g": {
+              "type": "number"
+            },
+            "VO2_ml_min_kg": {
+              "type": "number"
+            },
+            "VO2_ml_km_kg": {
+              "type": "string"
+            },
+            "HR_bpm": {
+              "type": "number"
+            },
+            "RPE_6_20": {
+              "type": "integer"
+            },
+            "Comfort_1_10": {
+              "type": "integer"
+            },
+            "Lactate_mmol_l": {
+              "type": "number"
+            },
+            "Size_US": {
+              "type": "number"
+            },
+            "Cadence": {
+              "type": "number"
+            }
+          },
+          "required": [
+            " ",
+            "Weight_g",
+            "VO2_ml_min_kg",
+            "VO2_ml_km_kg",
+            "HR_bpm",
+            "RPE_6_20",
+            "Comfort_1_10",
+            "Lactate_mmol_l",
+            "Size_US",
+            "Cadence"
+          ]
+        },
+        "Puma Nitro ": {
+          "type": "object",
+          "properties": {
+            " ": {
+              "type": "string"
+            },
+            "Weight_g": {
+              "type": "number"
+            },
+            "VO2_ml_min_kg": {
+              "type": "number"
+            },
+            "VO2_ml_km_kg": {
+              "type": "string"
+            },
+            "HR_bpm": {
+              "type": "number"
+            },
+            "RPE_6_20": {
+              "type": "integer"
+            },
+            "Comfort_1_10": {
+              "type": "integer"
+            },
+            "Lactate_mmol_l": {
+              "type": "number"
+            },
+            "Size_US": {
+              "type": "number"
+            },
+            "Cadence": {
+              "type": "number"
+            }
+          },
+          "required": [
+            " ",
+            "Weight_g",
+            "VO2_ml_min_kg",
+            "VO2_ml_km_kg",
+            "HR_bpm",
+            "RPE_6_20",
+            "Comfort_1_10",
+            "Lactate_mmol_l",
+            "Size_US",
+            "Cadence"
+          ]
+        },
+        "Nike Vapor Fly 3": {
+          "type": "object",
+          "properties": {
+            " ": {
+              "type": "string"
+            },
+            "Weight_g": {
+              "type": "number"
+            },
+            "VO2_ml_min_kg": {
+              "type": "number"
+            },
+            "VO2_ml_km_kg": {
+              "type": "string"
+            },
+            "HR_bpm": {
+              "type": "number"
+            },
+            "RPE_6_20": {
+              "type": "integer"
+            },
+            "Comfort_1_10": {
+              "type": "integer"
+            },
+            "Lactate_mmol_l": {
+              "type": "number"
+            },
+            "Size_US": {
+              "type": "number"
+            },
+            "Cadence": {
+              "type": "number"
+            }
+          },
+          "required": [
+            " ",
+            "Weight_g",
+            "VO2_ml_min_kg",
+            "VO2_ml_km_kg",
+            "HR_bpm",
+            "RPE_6_20",
+            "Comfort_1_10",
+            "Lactate_mmol_l",
+            "Size_US",
+            "Cadence"
+          ]
+        }
+      },
+      "required": [
+        "Asics Metaspeed",
+        "Nike Alphafly Next%",
+        "Nike Vapor Fly ",
+        "Puma Nitro Elite",
+        "Puma Nitro ",
+        "Nike Vapor Fly 3"
+      ]
+    }
+  },
+  "required": [
+    "ID",
+    "first_name",
+    "second_name",
+    "DOB",
+    "height",
+    "weight",
+    "date_visit",
+    "pb_distance",
+    "pb_time",
+    "speed_kph",
+    "data"
+  ]
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Report MSH</title>
+    <link href="../css/style_A4.css" rel="stylesheet">
+</head>
+<body>
+<header>
+    <h2> Institute of Interdisciplinary Exercise <br>Science and Sports Medicine</h2>
+    <img src="assets/logo_msh_join.png">
+</header>
+Prof. Dr. Karsten Hollander
+
+<div class="header-subtitle">
+    <h1> Report Lauf&ouml;konomie </h1>
+</div>
+
+<hr>
+
+<body-data>
+    <div class="meta-div">
+        <table class="subject-information">
+            <thead>
+            <tr>
+                <th colspan="2"><h4>Subject Information</h4></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><b>Athlet:</b> {{first_name}} {{second_name}}</td>
+                <td><b>Date of Birth:</b> {{DOB}}</td>
+            </tr>
+            <tr>
+                <td><b>Height:</b> {{height}}</td>
+                <td><b>Body weight:</b> {{weight}}</td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+        <table class="measurement-information">
+            <thead>
+            <tr>
+                <th colspan="2"><h4>Measurement Information</h4></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><b>Date:</b> {{date_visit}}</td>
+                <td><b>SB distance:</b> {{sb_distance}}</td>
+            </tr>
+            <tr>
+                <td><b>Test Speed [kph]:</b> {{speed_kph}}</td>
+                <td><b>SB time:</b> {{sb_time}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+
+    <div class="data-div">
+        {{data_table}}
+    </div>
+    <br>
+    <br>
+    <table class="data-information">
+        <tr>
+            <td><b>VO<sub>2</sub></b></td>
+            <td>Sauerstoffvolumen; angegeben f&uuml;r das Laufen bei der Geschwindigkeit der Saisonbestleistung (SB)
+                [ml/min/kg]<br>
+                und f&uuml;r einen Kilometer [ml/km/kg]; jeweils relativiert auf das K&ouml;rpergewicht
+            </td>
+        </tr>
+        <tr>
+            <td><b>RER</b></td>
+            <td>Respiratorische Austauschrate; Quotient des pro Zeit abgegebenen Kohlenstoffdioxidvolumens
+                (VCO<sub>2</sub> in l/min)<br>
+                zum aufgenommen Sauerstoffvolumen (VO<sub>2</sub> in l/min); Hinweis wie viele Fette (RER &#8776; 0.7)
+                und Kohlenhydrate<br>
+                (RER &#8776; 1.0) verbrannt werden
+            </td>
+        </tr>
+        <tr>
+            <td><b>HR</b></td>
+            <td>Herzfrequencz</td>
+        </tr>
+        <tr>
+            <td><b>RPE</b></td>
+            <td>Rating of perceived exertion</td>
+        </tr>
+    </table>
+
+
+</body-data>
+
+</body>
+</html>

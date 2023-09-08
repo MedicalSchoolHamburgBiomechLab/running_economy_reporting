@@ -1,0 +1,207 @@
+:root {
+    --blue-msh: #008AC4;
+    --white: #ffffff;
+    --green-bgcolor: #c8e6c9;
+    --green-font: #388e3c;
+    --red-msh: #DC092F;
+    --red-font: #c62828;
+    --yellow-bgcolor: #fff0c2;
+    --yellow-font: #a68b00;
+}
+
+
+@page {
+    size: 7in 9.25in;
+    margin: 5mm 10mm 5mm 10mm;
+
+    @bottom-right {
+        content: "Page " counter(page) " of " counter(pages);
+        font-family: "Open Sans", sans-serif;
+        font-size: 8px;
+    }
+}
+
+@font-face {
+  font-family: 'Custom Sans Regular';
+  src: url('css/Open_Sans/OpenSans-Regular.ttf') format("truetype");
+}
+
+@font-face {
+  font-family: 'Custom Sans Light';
+  src: url('css/Open_Sans/OpenSans-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Custom Sans Medium';
+  src: url('css/Open_Sans/OpenSans-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Custom Sans Condensed Bold';
+  src: url('css/Open_Sans/OpenSans_Condensed-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Custom Sans bold';
+  src: url('css/Open_Sans/OpenSans_Condensed-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Custom Sans Text';
+  src: url('css/Open_Sans/OpenSans-Light.ttf') format('truetype');
+}
+
+
+
+
+
+
+h1 {
+    font-family: 'Custom Sans Regular', sans-serif;
+    font-size: 28px;
+}
+
+h2 {
+    font-family: 'Custom Sans Medium', sans-serif; /* Regular */
+    font-size: 18px;
+}
+
+h3 {
+    font-family: 'Custom Sans Light', sans-serif;
+    font-size: 14px;
+}
+
+h4 {
+    font-family: 'Custom Sans Condensed Bold', sans-serif;
+    font-size: 14px;
+}
+
+b{
+    font-size: 10px;
+    font-family: 'Custom Sans bold', sans-serif;
+}
+
+i{
+    font-style: italic;
+}
+
+hr {
+    height: 1px;
+    background-color: #888888;
+    border: None;
+}
+
+div, body, header {
+    max-width: 7in;
+    max-height: 9.25in;
+    font-family: 'Custom Sans Text', sans-serif;
+    font-size: 12px;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px gray;
+    background-color: RGB(250, 250, 250, 0.1);
+}
+
+tbody {
+    font-size: 10px;
+}
+
+th {
+    background-color: rgba(0, 138, 196, 0.1);
+    text-align: center;
+    letter-spacing: 0.1em;
+    border-radius: 5px 5px 0 0;
+}
+
+td {
+    padding: 0.5rem 0.5rem;
+    text-align: left;
+    white-space: normal;
+}
+
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+header img {
+    max-height: 50px;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.header-subtitle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.subject-information,
+.measurement-information {
+    width: 100%;
+}
+
+table th h4 {
+  margin: 0;
+}
+
+
+.data-div {
+    justify-content: center;
+}
+
+.dataframe.data-table {
+    background-color: RGB(250, 250, 250, 0.1);
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.dataframe.data-table img {
+    max-height: 30px;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.dataframe.data-table th {
+    border-radius: 0;
+    letter-spacing: 0;
+    background-color: rgba(220, 9, 47, 0.1);
+    font-family: 'Custom Sans bold', sans-serif;
+}
+
+.dataframe.data-table td {
+    text-align: center;
+}
+
+.dataframe.data-table th, td {
+    /*word-break: break-all;*/
+    white-space: normal;
+}
+
+.data-information {
+    background-color: transparent;
+    width: 100%;
+    page-break-inside: avoid;
+
+}
+
+.data-information td{
+    border: 0px;
+    margin: auto;
+    word-break: keep-all;
+    white-space: nowrap;
+    vertical-align: top;
+}
+
+.data-information b{
+    text-align: center;
+    font-size: 14px;
+}
