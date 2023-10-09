@@ -8,6 +8,7 @@ import json
 from src.back_process import update_data_table
 import numpy as np
 
+
 class Subject:
     def __init__(self, ID):
         self.ID = ID
@@ -32,7 +33,7 @@ class Subject:
     def set_data_excel(self):
         order = self.info['order_nike':'order_individual_3'].sort_values(ascending=True).dropna()
 
-        #Check the link between order and shoes value --> avoid Nan indivual shoe
+        # Check the link between order and shoes value --> avoid Nan indivual shoe
         for i in range(1, 4):
             if str(self.info[f'individual_{i}']) == 'nan':
                 try:
@@ -66,16 +67,16 @@ class Subject:
                 self.data_excel.loc[' ', name] = os.path.join(r'assets', f'{picture_name}.png')
                 # self.data_excel.loc['Order', name] = self.info[shoe]
                 self.data_excel.loc['Weight_g', name] = self.info.loc[f'weight_{ind}']
-                self.data_excel.loc['VO2_ml_min_kg', name] = round(self.info.loc[f'economy_{i + 1} [ml/min/kg]'],1)
+                self.data_excel.loc['VO2_ml_min_kg', name] = round(self.info.loc[f'economy_{i + 1} [ml/min/kg]'], 1)
                 self.data_excel.loc['VO2_ml_km_kg', name] = round(self.data_excel.loc['VO2_ml_min_kg', name] / (
-                        self.speed_kph / 60),1)
-                self.data_excel.loc['HR_bpm', name] = round(self.info.loc[f'HR_{i + 1}'],1)
+                        self.speed_kph / 60), 1)
+                self.data_excel.loc['HR_bpm', name] = round(self.info.loc[f'HR_{i + 1}'], 1)
                 self.data_excel.loc['RPE_6_20', name] = self.info.loc[f'BORG_{i + 1}'].astype(int)
                 self.data_excel.loc['Comfort_1_10', name] = self.info.loc[f'comfort_{i + 1}'].astype(int)
                 self.data_excel.loc['Lactate_mmol_l', name] = self.info.loc[f'lactate_{i + 1}']
 
                 self.data_excel.loc['Size_US', name] = self.info.loc[f'us_size_{ind}']
-                self.data_excel.loc['Cadence', name] = self.info.loc[f'cadence_{i+1}']
+                self.data_excel.loc['Cadence', name] = self.info.loc[f'cadence_{i + 1}']
             except:
                 continue
         max_vo2 = max(self.data_excel.loc['VO2_ml_km_kg', :])
@@ -102,7 +103,7 @@ class Subject:
             'data': self.data_excel.to_dict(),
         }
 
-        json_dumps = json.dumps(data_to_json,indent=4)
+        json_dumps = json.dumps(data_to_json, indent=4)
 
         # Save JSON file
         os.makedirs(path_json, exist_ok=True)
@@ -111,14 +112,13 @@ class Subject:
         print("JSON saved ✅")
 
         return os.path.join(path_json, f'{name_json}.json')
-if __name__ == '__main__':
 
-    #TODO:
+
+if __name__ == '__main__':
+    # TODO:
     #                              !!!!!! MAKE SURE THAT THE CONSTANTS PATH ARE WELL SET !!!!!!
 
-    update_data_table.update_Cadence(ID='RE04')
-    subject = Subject('RE04')
+    update_data_table.update_cadence(_id='RE05')
+    subject = Subject('RE05')
     path_json = subject.generate_json(f'data_{subject.ID}', path_json=os.path.join(PATH_PROJECT, 'result'))
     report.main(path_json)
-
-
