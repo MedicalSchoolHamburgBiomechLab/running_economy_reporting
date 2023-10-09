@@ -5,15 +5,17 @@ import os
 from datetime import datetime
 import numpy as np
 import json
+import matplotlib.pyplot as plt
 
 
-class EXERCICE:
+class EXERCISE:
 
-    def __init__(self, start, end, VO2_KG, R):
+    def __init__(self, start, end, VO2_KG, R, HF):
         self.start = start
         self.end = end
         self.VO2_KG = VO2_KG
         self.R = R
+        self.HF = HF
 
     def get_json(self):
         data_to_json = {
@@ -21,6 +23,7 @@ class EXERCICE:
             'end': self.end.strftime('%H:%M:%S'),
             'VO2_KG': round(np.mean(self.VO2_KG), 2),
             'R': round(np.mean(self.R), 2),
+            'HF': int(np.mean(self.HF)),
         }
 
         return data_to_json
@@ -30,7 +33,7 @@ def export_result(PATH_PROTOCOLE_FILE, PATH_SAVE_RESULT, TIMESTAMP_TAKEN, subjec
     """
     function that return a json file containing the number of exercice describe by start/end time, VO2/KG and R mean
     """
-    df = pd.read_excel(PATH_PROTOCOLE_FILE, usecols=['t', 'Phase', 'VO2/Kg', 'R'], skiprows=[1, 2])
+    df = pd.read_excel(PATH_PROTOCOLE_FILE, usecols=['t', 'Phase', 'VO2/Kg', 'R', 'HF'], skiprows=[1, 2])
     tab_timestamp = []
     for value in df['t']:
         tab_timestamp.append(datetime.combine(datetime.today().date(), value).timestamp())
@@ -48,14 +51,15 @@ def export_result(PATH_PROTOCOLE_FILE, PATH_SAVE_RESULT, TIMESTAMP_TAKEN, subjec
     json_result = {}
     for index, (start, end) in enumerate(sequences):
         index_3_min = df.index[df['timestamp'] >= df['timestamp'][end] - TIMESTAMP_TAKEN][0]
+        index_last_min = df.index[df['timestamp'] >= df['timestamp'][end] - 60][0]
 
         # Check number of value
         print(f" Number of samples : {end - index_3_min}")
-
         VO2_KG = df['VO2/Kg'][index_3_min:end]
         R = df['R'][index_3_min:end]
-        json_result[f'Exercice_{index + 1}'] = EXERCICE(start=df['t'][start], end=df['t'][end], VO2_KG=VO2_KG,
-                                                        R=R).get_json()
+        HF = df['HF'][index_last_min:end]
+        json_result[f'Exercice_{index + 1}'] = EXERCISE(start=df['t'][start], end=df['t'][end], VO2_KG=VO2_KG,
+                                                        R=R, HF=HF).get_json()
 
     # Save JSON file
     with open(os.path.join(PATH_SAVE_RESULT, f'{subject_id}_out.json'), "w") as file:
@@ -76,8 +80,8 @@ def main(subject_id: str):
 
 
 if __name__ == '__main__':
-    # ids = [f'RE{str(i).zfill(2)}' for i in range(1, 12)]
-    ids = ['RE09']
+    ids = [f'RE{str(i).zfill(2)}' for i in range(1, 12)]
+    # ids = ['RE09']
     for s_id in ids:
         print(s_id)
         try:
