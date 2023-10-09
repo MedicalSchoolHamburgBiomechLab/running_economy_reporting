@@ -30,6 +30,11 @@ class Subject:
         self.height = self.info['height']
         self.weight = self.info['weight']
 
+    def get_make_name(self, shoe_name: str):
+        if shoe_name.lower().startswith('new balance'):
+            return 'new_balance'
+        return shoe_name.split(' ')[0].lower()
+
     def set_data_excel(self):
         order = self.info['order_nike':'order_individual_3'].sort_values(ascending=True).dropna()
 
@@ -63,8 +68,9 @@ class Subject:
                     name = 'Puma Nitro Elite'
             try:
                 picture_name = name.rstrip().replace(' ', '_')
+                make_name = self.get_make_name(name)
                 print(name)
-                self.data_excel.loc[' ', name] = os.path.join(r'assets', f'{picture_name}.png')
+                self.data_excel.loc[' ', name] = os.path.join(r'assets', 'shoes', make_name, f'{picture_name}.png')
                 # self.data_excel.loc['Order', name] = self.info[shoe]
                 self.data_excel.loc['Weight_g', name] = self.info.loc[f'weight_{ind}']
                 self.data_excel.loc['VO2_ml_min_kg', name] = round(self.info.loc[f'economy_{i + 1} [ml/min/kg]'], 1)
@@ -117,8 +123,10 @@ class Subject:
 if __name__ == '__main__':
     # TODO:
     #                              !!!!!! MAKE SURE THAT THE CONSTANTS PATH ARE WELL SET !!!!!!
-
-    update_data_table.update_cadence(_id='RE05')
-    subject = Subject('RE05')
-    path_json = subject.generate_json(f'data_{subject.ID}', path_json=os.path.join(PATH_PROJECT, 'result'))
-    report.main(path_json)
+    ids = [f'RE{str(i).zfill(2)}' for i in range(5, 12)]
+    # ids = ['RE11']
+    for s_id in ids:
+        # update_data_table.update_cadence(_id='RE05')
+        subject = Subject(s_id)
+        path_json = subject.generate_json(f'data_{subject.ID}', path_json=os.path.join(PATH_PROJECT, 'result'))
+        report.main(path_json)
