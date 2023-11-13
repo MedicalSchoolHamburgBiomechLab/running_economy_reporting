@@ -72,27 +72,27 @@ class Subject:
                 print(name)
                 self.data_excel.loc[' ', name] = os.path.join(r'assets', 'shoes', make_name, f'{picture_name}.png')
                 # self.data_excel.loc['Order', name] = self.info[shoe]
-                self.data_excel.loc['Weight_g', name] = self.info.loc[f'weight_{ind}']
+                self.data_excel.loc['Weight_g', name] = self.info.loc[f'weight_{ind}'].astype(int)
                 self.data_excel.loc['VO2_ml_min_kg', name] = round(self.info.loc[f'economy_{i + 1} [ml/min/kg]'], 1)
                 self.data_excel.loc['VO2_ml_km_kg', name] = round(self.data_excel.loc['VO2_ml_min_kg', name] / (
                         self.speed_kph / 60), 1)
-                self.data_excel.loc['HR_bpm', name] = round(self.info.loc[f'HR_{i + 1}'], 1)
+                self.data_excel.loc['HR_bpm', name] = self.info.loc[f'HR_{i + 1}'].astype(int)
                 self.data_excel.loc['RPE_6_20', name] = self.info.loc[f'BORG_{i + 1}'].astype(int)
                 self.data_excel.loc['Comfort_1_10', name] = self.info.loc[f'comfort_{i + 1}'].astype(int)
                 self.data_excel.loc['Lactate_mmol_l', name] = self.info.loc[f'lactate_{i + 1}']
 
                 self.data_excel.loc['Size_US', name] = self.info.loc[f'us_size_{ind}']
-                self.data_excel.loc['Cadence', name] = self.info.loc[f'cadence_{i + 1}']
+                self.data_excel.loc['Cadence', name] = self.info.loc[f'cadence_{i + 1}'].astype(int)
             except:
                 continue
         max_vo2 = max(self.data_excel.loc['VO2_ml_km_kg', :])
         for column in self.data_excel.columns:
             if self.data_excel.loc['VO2_ml_km_kg', column] == max_vo2:
-                self.data_excel.loc['VO2_ml_km_kg', column] = f"{self.data_excel.loc['VO2_ml_km_kg', column]} (Ref.)"
+                self.data_excel.loc['VO2_ml_km_kg', column] = f"{self.data_excel.loc['VO2_ml_km_kg', column]}<br>(Ref.)"
             else:
                 vo2_variation = round(100 / max_vo2 * (self.data_excel.loc['VO2_ml_km_kg', column] - max_vo2), 1)
                 self.data_excel.loc[
-                    'VO2_ml_km_kg', column] = f"{self.data_excel.loc['VO2_ml_km_kg', column]} ({vo2_variation})"
+                    'VO2_ml_km_kg', column] = f"{self.data_excel.loc['VO2_ml_km_kg', column]}<br>({vo2_variation}%)"
 
     def generate_json(self, name_json: str = 'data', path_json: str = PATH_PROJECT) -> str:
         data_to_json = {
