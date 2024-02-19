@@ -10,20 +10,31 @@ import matplotlib.pyplot as plt
 
 class EXERCISE:
 
-    def __init__(self, start, end, VO2_KG, R, HF):
+    def __init__(self, start, end, VO2_KG, R, HF, VO2, VCO2):
         self.start = start
         self.end = end
         self.VO2_KG = VO2_KG
         self.R = R
         self.HF = HF
+        self.VO2 = VO2
+        self.VCO2 = VCO2
 
     def get_json(self):
+        energetic_cost = peronnet_massicotte_1991(VCO2=self.VCO2 / 60000,
+                                                  VO2=self.VO2 / 60000)  #  VO2 and VCO2 come in mL/min
+        energetic_cost *= 1000  # formula returns in kJ/s -> Watts
+
+        # workaround to get weight:
+        weight = np.mean( self.VO2 / self.VO2_KG)
+        energetic_cost = energetic_cost / weight  # Watts/kg
+
         data_to_json = {
             'start': self.start.strftime('%H:%M:%S'),
             'end': self.end.strftime('%H:%M:%S'),
             'VO2_KG': round(np.mean(self.VO2_KG), 2),
             'R': round(np.mean(self.R), 2),
             'HF': int(np.mean(self.HF)),
+            'energetic_cost_W_KG': round(np.mean(energetic_cost), 2),
         }
 
         return data_to_json
@@ -33,7 +44,7 @@ def export_result(PATH_PROTOCOLE_FILE, PATH_SAVE_RESULT, TIMESTAMP_TAKEN, subjec
     """
     function that return a json file containing the number of exercice describe by start/end time, VO2/KG and R mean
     """
-    df = pd.read_excel(PATH_PROTOCOLE_FILE, usecols=['t', 'Phase', 'VO2/Kg', 'R', 'HF'], skiprows=[1, 2])
+    df = pd.read_excel(PATH_PROTOCOLE_FILE, usecols=['t', 'Phase', 'VO2/Kg', 'VO2', 'VCO2', 'R', 'HF'], skiprows=[1, 2])
     tab_timestamp = []
     for value in df['t']:
         tab_timestamp.append(datetime.combine(datetime.today().date(), value).timestamp())
@@ -56,10 +67,18 @@ def export_result(PATH_PROTOCOLE_FILE, PATH_SAVE_RESULT, TIMESTAMP_TAKEN, subjec
         # Check number of value
         print(f" Number of samples : {end - index_3_min}")
         VO2_KG = df['VO2/Kg'][index_3_min:end]
+        VCO2 = df['VCO2'][index_3_min:end]
+        VO2 = df['VO2'][index_3_min:end]
         R = df['R'][index_3_min:end]
         HF = df['HF'][index_last_min:end]
-        json_result[f'Exercice_{index + 1}'] = EXERCISE(start=df['t'][start], end=df['t'][end], VO2_KG=VO2_KG,
-                                                        R=R, HF=HF).get_json()
+        json_result[f'Exercice_{index + 1}'] = EXERCISE(start=df['t'][start],
+                                                        end=df['t'][end],
+                                                        VO2_KG=VO2_KG,
+                                                        R=R,
+                                                        HF=HF,
+                                                        VCO2=VCO2,
+                                                        VO2=VO2,
+                                                        ).get_json()
 
     # Save JSON file
     with open(os.path.join(PATH_SAVE_RESULT, f'{subject_id}_out.json'), "w") as file:
@@ -68,6 +87,13 @@ def export_result(PATH_PROTOCOLE_FILE, PATH_SAVE_RESULT, TIMESTAMP_TAKEN, subjec
     # with open(os.path.join(PATH_SAVE_RESULT, f'out.txt'), "w") as file:
     #     json.dump(json_result, file, indent=4)
     # print("Text saved ✅")
+
+
+def peronnet_massicotte_1991(VO2, VCO2):
+    """Table of nonprotein respiratory quotient: an update. Peronnet F, Massicotte D. Can J Sport Sci. 1991;16(
+    1):23-29.
+     VO2 and VCO2 required in L/s"""
+    return 16.89 * VO2 + 4.84 * VCO2
 
 
 def main(subject_id: str):
@@ -80,7 +106,7 @@ def main(subject_id: str):
 
 
 if __name__ == '__main__':
-    ids = [f'RE{str(i).zfill(2)}' for i in range(1, 12)]
+    ids = [f'RE{str(i).zfill(2)}' for i in range(1, 24)]
     # ids = ['RE09']
     for s_id in ids:
         print(s_id)
