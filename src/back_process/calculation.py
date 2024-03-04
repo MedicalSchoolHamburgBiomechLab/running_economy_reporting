@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 class EXERCISE:
 
-    def __init__(self, start, end, VO2_KG, R, HF, VO2, VCO2):
+    def __init__(self, start, end, VO2_KG, R, HF, VO2, VCO2, Af):
         self.start = start
         self.end = end
         self.VO2_KG = VO2_KG
@@ -18,6 +18,7 @@ class EXERCISE:
         self.HF = HF
         self.VO2 = VO2
         self.VCO2 = VCO2
+        self.Af = Af
 
     def get_json(self):
         energetic_cost = peronnet_massicotte_1991(VCO2=self.VCO2 / 60000,
@@ -35,6 +36,7 @@ class EXERCISE:
             'R': round(np.mean(self.R), 2),
             'HF': int(np.mean(self.HF)),
             'energetic_cost_W_KG': round(np.mean(energetic_cost), 2),
+            'Af': round(np.mean(self.Af), 2),
         }
 
         return data_to_json
@@ -44,7 +46,7 @@ def export_result(PATH_PROTOCOLE_FILE, PATH_SAVE_RESULT, TIMESTAMP_TAKEN, subjec
     """
     function that return a json file containing the number of exercice describe by start/end time, VO2/KG and R mean
     """
-    df = pd.read_excel(PATH_PROTOCOLE_FILE, usecols=['t', 'Phase', 'VO2/Kg', 'VO2', 'VCO2', 'R', 'HF'], skiprows=[1, 2])
+    df = pd.read_excel(PATH_PROTOCOLE_FILE, usecols=['t', 'Phase', 'VO2/Kg', 'VO2', 'VCO2', 'R', 'HF', 'Af'], skiprows=[1, 2])
     tab_timestamp = []
     for value in df['t']:
         tab_timestamp.append(datetime.combine(datetime.today().date(), value).timestamp())
@@ -71,6 +73,7 @@ def export_result(PATH_PROTOCOLE_FILE, PATH_SAVE_RESULT, TIMESTAMP_TAKEN, subjec
         VO2 = df['VO2'][index_3_min:end]
         R = df['R'][index_3_min:end]
         HF = df['HF'][index_last_min:end]
+        Af = df['Af'][index_3_min:end]
         json_result[f'Exercice_{index + 1}'] = EXERCISE(start=df['t'][start],
                                                         end=df['t'][end],
                                                         VO2_KG=VO2_KG,
@@ -78,6 +81,7 @@ def export_result(PATH_PROTOCOLE_FILE, PATH_SAVE_RESULT, TIMESTAMP_TAKEN, subjec
                                                         HF=HF,
                                                         VCO2=VCO2,
                                                         VO2=VO2,
+                                                        Af=Af
                                                         ).get_json()
 
     # Save JSON file
