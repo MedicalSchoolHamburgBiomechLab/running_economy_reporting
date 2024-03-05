@@ -16,7 +16,8 @@ PATH_PROJECT = os.path.dirname(os.path.dirname(__file__))
 #                        'OneDrive - MSH Medical School Hamburg - University of Applied Sciences and Medical University','Dokumente', 'Projects','bisp_footwear','data'])
 
 
-PATH_DATA = r"/Users/dominikfohrmann/OneDrive - MSH Medical School Hamburg - University of Applied Sciences and Medical University/Dokumente/Projects/bisp_footwear/data"
+# PATH_DATA = r"/Users/dominikfohrmann/OneDrive - MSH Medical School Hamburg - University of Applied Sciences and Medical University/Dokumente/Projects/bisp_footwear/data"
+PATH_DATA = r"C:\Users\QTM\OneDrive - MSH Medical School Hamburg - University of Applied Sciences and Medical University\Dokumente\Projects\bisp_footwear\data"
 # if os.path.isfile(os.path.join(PATH_DATA, 'subjects_running_economy_update.xlsx')):
 #     PATH_EXCEL = os.path.join(PATH_DATA, 'subjects_running_economy_update.xlsx')
 # else:

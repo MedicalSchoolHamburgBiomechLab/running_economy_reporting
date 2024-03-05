@@ -6,6 +6,7 @@ from datetime import datetime
 import numpy as np
 import json
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 
 class EXERCISE:
@@ -34,7 +35,7 @@ class EXERCISE:
             'end': self.end.strftime('%H:%M:%S'),
             'VO2_KG': round(np.mean(self.VO2_KG), 2),
             'R': round(np.mean(self.R), 2),
-            'HF': int(np.mean(self.HF)),
+            'HF': np.mean(self.HF),
             'energetic_cost_W_KG': round(np.mean(energetic_cost), 2),
             'Af': round(np.mean(self.Af), 2),
         }
@@ -60,12 +61,51 @@ def export_result(PATH_PROTOCOLE_FILE, PATH_SAVE_RESULT, TIMESTAMP_TAKEN, subjec
     end_indices = df.index[(~exercise_mask) & shifted_mask.astype(bool)] - 1
     sequences = list(zip(start_indices, end_indices))
 
+    f, [ax_top, ax_bottom] = plt.subplots(2, 1, sharex=True)
+    f.set_size_inches([34.4, 13.45])
+    f.suptitle(subject_id)
+    sns.lineplot(data=df, x='timestamp', y='HF', ax=ax_top)
+    sns.lineplot(data=df, x='timestamp', y='VO2/Kg', ax=ax_bottom)
+    ylim_top = ax_top.get_ylim()
+    ylim_bottom = ax_bottom.get_ylim()
+
     # Create Exercice and store data
     json_result = {}
     for index, (start, end) in enumerate(sequences):
         index_3_min = df.index[df['timestamp'] >= df['timestamp'][end] - TIMESTAMP_TAKEN][0]
         index_last_min = df.index[df['timestamp'] >= df['timestamp'][end] - 60][0]
 
+        # draw patch to indicate phases
+
+        # phase x values
+        x_patch_start_phase = df['timestamp'][start]
+        x_patch_end_phase = df['timestamp'][end]
+        patch_width_phase = x_patch_end_phase - x_patch_start_phase
+        # HF x-values
+        x_patch_start_hf = df['timestamp'][index_last_min]
+        patch_width_hf = x_patch_end_phase - x_patch_start_hf
+        # VO2 x-values
+        x_patch_start_vo2 = df['timestamp'][index_3_min]
+        patch_width_vo2 = x_patch_end_phase - x_patch_start_vo2
+
+        # HF y-values
+        y_patch_start_hf, y_patch_end = ax_top.get_ylim()
+        patch_height_hf = y_patch_end - y_patch_start_hf
+        # VO2 y-values
+        y_patch_start_v02, y_patch_end = ax_bottom.get_ylim()
+        patch_height_v02 = y_patch_end - y_patch_start_v02
+
+        # PHASE
+        ax_top.add_patch(plt.Rectangle((x_patch_start_phase, y_patch_start_hf),
+                                       patch_width_phase, patch_height_hf, color='red', alpha=0.1))
+        ax_bottom.add_patch(plt.Rectangle((x_patch_start_phase, y_patch_start_v02),
+                                          patch_width_phase, patch_height_v02, color='red', alpha=0.1))
+        # HF
+        ax_top.add_patch(plt.Rectangle((x_patch_start_hf, y_patch_start_hf),
+                                       patch_width_hf, patch_height_hf, color='yellow', alpha=0.2))
+        # VO2
+        ax_bottom.add_patch(plt.Rectangle((x_patch_start_vo2, y_patch_start_v02),
+                                          patch_width_vo2, patch_height_v02, color='yellow', alpha=0.2))
         # Check number of value
         print(f" Number of samples : {end - index_3_min}")
         VO2_KG = df['VO2/Kg'][index_3_min:end]
@@ -74,16 +114,26 @@ def export_result(PATH_PROTOCOLE_FILE, PATH_SAVE_RESULT, TIMESTAMP_TAKEN, subjec
         R = df['R'][index_3_min:end]
         HF = df['HF'][index_last_min:end]
         Af = df['Af'][index_3_min:end]
-        json_result[f'Exercice_{index + 1}'] = EXERCISE(start=df['t'][start],
-                                                        end=df['t'][end],
-                                                        VO2_KG=VO2_KG,
-                                                        R=R,
-                                                        HF=HF,
-                                                        VCO2=VCO2,
-                                                        VO2=VO2,
-                                                        Af=Af
-                                                        ).get_json()
 
+        exercise = EXERCISE(start=df['t'][start],
+                            end=df['t'][end],
+                            VO2_KG=VO2_KG,
+                            R=R,
+                            HF=HF,
+                            VCO2=VCO2,
+                            VO2=VO2,
+                            Af=Af)
+        results = exercise.get_json()
+        json_result[f'Exercice_{index + 1}'] = results
+
+        ax_top.plot((x_patch_start_hf, x_patch_end_phase), (results['HF'], results['HF']), 'k--')
+        ax_bottom.plot((x_patch_start_vo2, x_patch_end_phase), (results['VO2_KG'], results['VO2_KG']), 'k--')
+
+    ax_top.set_ylim(ylim_top)
+    ax_bottom.set_ylim(ylim_bottom)
+
+    # plt.show()
+    plt.savefig(os.path.join(PATH_SAVE_RESULT, f'{subject_id}.png'))
     # Save JSON file
     with open(os.path.join(PATH_SAVE_RESULT, f'{subject_id}_out.json'), "w") as file:
         json.dump(json_result, file, indent=4)
