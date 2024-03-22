@@ -58,6 +58,9 @@ def export_result(PATH_PROTOCOLE_FILE, PATH_SAVE_RESULT, TIMESTAMP_TAKEN, subjec
     end_indices = df.index[(~exercise_mask) & shifted_mask.astype(bool)] - 1
     sequences = list(zip(start_indices, end_indices))
 
+
+    # plt.plot(df['timestamp'], df['VO2'])
+    # plt.plot(df['timestamp'], df['VCO2'])
     # Create Exercice and store data
     json_result = {}
     for index, (start, end) in enumerate(sequences):
@@ -69,6 +72,9 @@ def export_result(PATH_PROTOCOLE_FILE, PATH_SAVE_RESULT, TIMESTAMP_TAKEN, subjec
         VO2_KG = df['VO2/Kg'][index_3_min:end]
         VCO2 = df['VCO2'][index_3_min:end]
         VO2 = df['VO2'][index_3_min:end]
+
+        # plt.plot(VO2)
+        # plt.plot(VCO2)
         R = df['R'][index_3_min:end]
         HF = df['HF'][index_last_min:end]
         json_result[f'Exercice_{index + 1}'] = EXERCISE(start=df['t'][start],
@@ -106,8 +112,8 @@ def main(subject_id: str):
 
 
 if __name__ == '__main__':
-    ids = [f'RE{str(i).zfill(2)}' for i in range(1, 24)]
-    # ids = ['RE09']
+    # ids = [f'RE{str(i).zfill(2)}' for i in range(1, 24)]
+    ids = ['RE04']
     for s_id in ids:
         print(s_id)
         try:

@@ -12,11 +12,11 @@ ZEBRIS_SAMPLE_RATE = 300
 ACQUISITION_DURATION = 1  # in minute
 
 PATH_PROJECT = os.path.dirname(os.path.dirname(__file__))
-# PATH_DATA = "\\".join(['C:', 'Users', os.getlogin(),
-#                        'OneDrive - MSH Medical School Hamburg - University of Applied Sciences and Medical University','Dokumente', 'Projects','bisp_footwear','data'])
+PATH_DATA = "\\".join(['C:', 'Users', os.getlogin(),
+                       'OneDrive - MSH Medical School Hamburg - University of Applied Sciences and Medical University','Dokumente', 'Projects','bisp_footwear','data'])
 
 
-PATH_DATA = r"/Users/dominikfohrmann/OneDrive - MSH Medical School Hamburg - University of Applied Sciences and Medical University/Dokumente/Projects/bisp_footwear/data"
+# PATH_DATA = r"/Users/dominikfohrmann/OneDrive - MSH Medical School Hamburg - University of Applied Sciences and Medical University/Dokumente/Projects/bisp_footwear/data"
 # if os.path.isfile(os.path.join(PATH_DATA, 'subjects_running_economy_update.xlsx')):
 #     PATH_EXCEL = os.path.join(PATH_DATA, 'subjects_running_economy_update.xlsx')
 # else:

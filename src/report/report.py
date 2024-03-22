@@ -55,6 +55,7 @@ def data_to_html(json_subject: dict):
         'Weight <i>[g]</i>',
         'VO<sub>2</sub> <i>[ml/min/kg]</i>',
         'VO<sub>2</sub> <i>[ml/km/kg]</i>',
+        'RER',
         'HR <i>[bpm]</i>',
         'RPE <i>[6-20]</i>',
         'Comfort <i>[1-10]</i>',

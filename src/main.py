@@ -21,7 +21,7 @@ class Subject:
         self.second_name = second_name
 
     def set_info_from_excel(self):
-        self.info = pd.read_excel(PATH_EXCEL, index_col=0).loc[self.ID, :]
+        self.info = pd.read_excel(PATH_EXCEL, sheet_name="Sheet1_unprotected",  index_col=0).loc[self.ID, :]
         self.session_date = self.info['session_date'].strftime('%d.%m.%Y')
         self.sb_distance = self.info['sb_distance']
         self.sb_time = self.info['sb_time']
@@ -76,6 +76,7 @@ class Subject:
                 self.data_excel.loc['VO2_ml_min_kg', name] = round(self.info.loc[f'economy_{i + 1} [ml/min/kg]'], 1)
                 self.data_excel.loc['VO2_ml_km_kg', name] = round(self.data_excel.loc['VO2_ml_min_kg', name] / (
                         self.speed_kph / 60), 1)
+                self.data_excel.loc['RER', name] = round(self.info.loc[f'R_{i + 1}'], 2)
                 self.data_excel.loc['HR_bpm', name] = self.info.loc[f'HR_{i + 1}'].astype(int)
                 self.data_excel.loc['RPE_6_20', name] = self.info.loc[f'BORG_{i + 1}'].astype(int)
                 self.data_excel.loc['Comfort_1_10', name] = self.info.loc[f'comfort_{i + 1}'].astype(int)
@@ -123,8 +124,8 @@ class Subject:
 if __name__ == '__main__':
     # TODO:
     #                              !!!!!! MAKE SURE THAT THE CONSTANTS PATH ARE WELL SET !!!!!!
-    ids = [f'RE{str(i).zfill(2)}' for i in range(5, 12)]
-    # ids = ['RE11']
+    # ids = [f'RE{str(i).zfill(2)}' for i in range(5, 12)]
+    ids = ['RE66']
     for s_id in ids:
         # update_data_table.update_cadence(_id='RE05')
         subject = Subject(s_id)
