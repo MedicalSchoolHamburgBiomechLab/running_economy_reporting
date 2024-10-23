@@ -11,7 +11,7 @@ import seaborn as sns
 
 class EXERCISE:
 
-    def __init__(self, start, end, VO2_KG, R, HF, VO2, VCO2, Af):
+    def __init__(self, start, end, VO2_KG, R, HF, VO2, VCO2, Af, VE):
         self.start = start
         self.end = end
         self.VO2_KG = VO2_KG
@@ -20,14 +20,15 @@ class EXERCISE:
         self.VO2 = VO2
         self.VCO2 = VCO2
         self.Af = Af
+        self.VE = VE
 
     def get_json(self):
         energetic_cost = peronnet_massicotte_1991(VCO2=self.VCO2 / 60000,
-                                                  VO2=self.VO2 / 60000)  #  VO2 and VCO2 come in mL/min
+                                                  VO2=self.VO2 / 60000)  # VO2 and VCO2 come in mL/min
         energetic_cost *= 1000  # formula returns in kJ/s -> Watts
 
         # workaround to get weight:
-        weight = np.mean( self.VO2 / self.VO2_KG)
+        weight = np.mean(self.VO2 / self.VO2_KG)
         energetic_cost = energetic_cost / weight  # Watts/kg
 
         data_to_json = {
@@ -38,6 +39,7 @@ class EXERCISE:
             'HF': np.mean(self.HF),
             'energetic_cost_W_KG': round(np.mean(energetic_cost), 2),
             'Af': round(np.mean(self.Af), 2),
+            'VE': round(np.mean(self.VE), 2)
         }
 
         return data_to_json
@@ -47,7 +49,7 @@ def export_result(PATH_PROTOCOLE_FILE, PATH_SAVE_RESULT, TIMESTAMP_TAKEN, subjec
     """
     function that return a json file containing the number of exercice describe by start/end time, VO2/KG and R mean
     """
-    df = pd.read_excel(PATH_PROTOCOLE_FILE, usecols=['t', 'Phase', 'VO2/Kg', 'VO2', 'VCO2', 'R', 'HF', 'Af'], skiprows=[1, 2])
+    df = pd.read_excel(PATH_PROTOCOLE_FILE, usecols=['t', 'Phase', 'VE', 'VO2/Kg', 'VO2', 'VCO2', 'R', 'HF', 'Af'], skiprows=[1, 2])
     tab_timestamp = []
     for value in df['t']:
         tab_timestamp.append(datetime.combine(datetime.today().date(), value).timestamp())
@@ -68,7 +70,6 @@ def export_result(PATH_PROTOCOLE_FILE, PATH_SAVE_RESULT, TIMESTAMP_TAKEN, subjec
     sns.lineplot(data=df, x='timestamp', y='VO2/Kg', ax=ax_bottom)
     ylim_top = ax_top.get_ylim()
     ylim_bottom = ax_bottom.get_ylim()
-
 
     # plt.plot(df['timestamp'], df['VO2'])
     # plt.plot(df['timestamp'], df['VCO2'])
@@ -120,6 +121,7 @@ def export_result(PATH_PROTOCOLE_FILE, PATH_SAVE_RESULT, TIMESTAMP_TAKEN, subjec
         R = df['R'][index_3_min:end]
         HF = df['HF'][index_last_min:end]
         Af = df['Af'][index_3_min:end]
+        VE = df['VE'][index_3_min:end]
 
         exercise = EXERCISE(start=df['t'][start],
                             end=df['t'][end],
@@ -128,7 +130,8 @@ def export_result(PATH_PROTOCOLE_FILE, PATH_SAVE_RESULT, TIMESTAMP_TAKEN, subjec
                             HF=HF,
                             VCO2=VCO2,
                             VO2=VO2,
-                            Af=Af)
+                            Af=Af,
+                            VE=VE)
         results = exercise.get_json()
         json_result[f'Exercice_{index + 1}'] = results
 
